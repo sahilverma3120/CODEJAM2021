@@ -32,15 +32,16 @@ def get_cheater(matriz):
 
     scores = []
     for i in range(PEOPLE_N):
-        S_p_i = [S_p[i] for j in range(TOTAL_N)]
-        x = list( map(sub,S_p_i, Q_p))
-        f=list(map(lambda x:sigmoid(x) if random.randint(0, 1)==0 else 1 ,x))
+        f=list(map(lambda x:sigmoid(S_p[i]-x)>0.5 if random.randint(0, 1)==0 else 1 ,Q_p))
+        score = sum(1 for x,y in zip(f,matriz[i]) if x == y) / len(f)
+        '''
         score= 0
         for idx in range(TOTAL_N):
             if f[idx]>0.5 and matriz[i][idx] ==1:
                 score+=1
             elif f[idx]<=0.5 and matriz[i][idx] ==0:
                 score+=0
+        '''
         scores.append(score)
 
     index, element = max(enumerate(scores), key=itemgetter(1))
