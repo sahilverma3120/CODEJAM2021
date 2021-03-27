@@ -14,25 +14,7 @@ def sigmoid(gamma):
         return 1 - 1 / (1 + math.exp(gamma))
     return 1 / (1 + math.exp(-gamma))
 
-
-def get_cheater(matriz):
-
-    S_p = []
-    Q_p = None
-    i_max = 10000
-    maxi = 0
-    maxi_ant = None
-    
-    for idx,i in enumerate(matriz):
-        if Q_p is None:
-            Q_p = i
-        else:
-            Q_p =  list(map(add, Q_p, i))
-        S_p.append(sum(i))
-
-    #S_p = list(map((1.0/TOTAL_N).__mul__, S_p))
-    #Q_p = list(map((1.0/PEOPLE_N).__mul__, Q_p))
-
+def get_cheater(matriz,S_p,Q_p):
     scores = []
     for i in range(PEOPLE_N):
         f=list(map(lambda x:sigmoid(S_p[i]/TOTAL_N-x/PEOPLE_N)>0.5 if random.randint(0, 1)==0 else 1 ,Q_p))
@@ -50,16 +32,20 @@ for j in range(T):
     matriz = []
     
     #'''
+    S_p = []
+    Q_p = None
     for i in range(PEOPLE_N):
-        texto = sys.stdin.readline().strip()#input().strip()#input()
-        #print(len(lista))
-        matriz1.append(texto)
-    for texto in matriz1:
+        texto = sys.stdin.readline().strip()
         lista = list(map(int,list(texto)))
         matriz.append(lista)
+        if Q_p is None:
+            Q_p = lista
+        else:
+            Q_p =  list(map(add, Q_p, lista))
+        S_p.append(sum(lista))
     
-    if j>P*T/100:
-        ans = get_cheater(matriz)
+    if random.randint(0, 1)==1:#j<(P*T/100+1):
+        ans = get_cheater(matriz,S_p,Q_p)
     else:
         ans = random.randint(1,PEOPLE_N)
 
