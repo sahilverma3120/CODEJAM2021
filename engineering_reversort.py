@@ -1,3 +1,6 @@
+# sample test : ok
+# test 1 : ok
+
 from itertools import permutations 
 import numpy as np
 T = int(input())
