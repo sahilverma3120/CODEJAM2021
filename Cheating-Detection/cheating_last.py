@@ -1,6 +1,5 @@
 import sys
-from operator import add,sub
-from operator import itemgetter
+from operator import add,sub,itemgetter
 import math
 import random
  
