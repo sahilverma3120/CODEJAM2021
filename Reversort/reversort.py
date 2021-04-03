@@ -1,6 +1,8 @@
+# python3
 # sample test: ok 
 # test 1 :  ok
 # test 2 : ok
+
 import numpy as np
 
 T = int(input())
