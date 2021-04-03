@@ -1,8 +1,7 @@
 # sample test : ok
 # test 1 : ok
+# test 2 : ok
 
-from itertools import permutations 
-import numpy as np
 T = int(input())
 
 def reversort(lista):
@@ -20,30 +19,40 @@ def reversort(lista):
     return suma
 
 
+def get_reversort(N,C,reference):
+    #print('init ',N,C,reference)
+    if N==1:
+        return [reference+1]
+    ans = 'IMPOSSIBLE'
+    for i in range(1,N+1):
+        n = N-1
+        min_c = (n)-1
+        max_c = (n*(n+1))/2-1
+        #print(i,C-i,max_c,min_c)
+        if (C-i)<=max_c and (C-i)>=min_c:
+            #print('**',i,N,C,i+reference)
+            ans=[i+reference]+get_reversort(N-1,C-i,reference+1)
+            break
+    return ans
+def transform(N,ans):
+    # get list 
+    aux = [i for i in range(1,N+1)]
+    for i in range(N):
+        aux[(N-i-1):ans[N-i-1]] = aux[(N-i-1):ans[N-i-1]][::-1]
+    # get string for output
+    texto = ""
+    for i in range(N):
+        texto+=str(aux[i])+" "
+    return texto[:-1]
 for j in range(T):
     lista = list(map(int,input().split()))
     N = int(lista[0])
     C = int(lista[1])
     
-    min_c = N-1
-    max_c = (N*(N+1))/2-1
+    ans = get_reversort(N,C,0)
     
-    if C>max_c or C<min_c:
-        ans = 'IMPOSSIBLE'
-    else:
-  
-        perm = permutations([i for i in range(1,N+1)]) 
-        for i in list(perm):
-            suma = reversort(list(i).copy())
-            if suma == C:
-                ans = list(i)
-                break    
-
-    if ans != 'IMPOSSIBLE':
-        texto = ''
-        for i in ans:
-            texto+=str(i)+' '
-        ans = texto[:-1]
+    if ans!= 'IMPOSSIBLE':
+        ans = transform(N,ans)
     if j != (T-1):        
         print("Case #"+str(j+1)+": "+str(ans))
     else:
